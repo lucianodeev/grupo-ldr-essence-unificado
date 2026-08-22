@@ -1,0 +1,11 @@
+{
+  "name": "grupo-ldr-essence-unificado",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/painel-ldr"
+  ],
+  "scripts": {
+    "build:painel": "npm --prefix apps/painel-ldr run build"
+  }
+}

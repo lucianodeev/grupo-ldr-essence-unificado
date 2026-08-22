@@ -1,0 +1,12 @@
+{
+  "painel": {
+    "path": "apps/painel-ldr",
+    "domain": "painel.ldrrhestrategia.com",
+    "type": "TanStack Start full-stack"
+  },
+  "site": {
+    "path": "apps/luciano-empreendedor",
+    "domain": "lucianoempreendendor.com",
+    "type": "Netlify static site"
+  }
+}
