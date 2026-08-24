@@ -1,0 +1,27 @@
+name: Validate painel
+
+on:
+  pull_request:
+    paths:
+      - "apps/painel-ldr/**"
+      - "package.json"
+      - ".github/workflows/validate-painel.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/painel-ldr/**"
+      - "package.json"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/painel-ldr
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npm run build

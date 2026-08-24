@@ -1,0 +1,153 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Central Única de Operação — Grupo LDR Essence
+ * Identidade: azul institucional / dourado / creme (tokens semânticos em oklch).
+ * Obs.: os tokens --wine/--wine-deep são mantidos por compatibilidade e agora
+ * carregam os tons de azul institucional.
+ */
+
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-wine: var(--wine);
+  --color-wine-deep: var(--wine-deep);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-cream: var(--cream);
+  --color-paper: var(--paper);
+  --color-success: var(--success);
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-sans:
+    Montserrat, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --shadow-panel: 0 8px 24px oklch(0.35 0.09 255 / 0.1);
+  --shadow-header: 0 4px 18px oklch(0.25 0.07 255 / 0.25);
+}
+
+:root {
+  --radius: 0.75rem;
+  /* Azul institucional (mantém os nomes de token por compatibilidade) */
+  --wine: oklch(0.4 0.11 255);
+  --wine-deep: oklch(0.28 0.09 258);
+  --gold: oklch(0.7549 0.1201 79.16);
+  --gold-soft: oklch(0.9187 0.0536 85.63);
+  --cream: oklch(0.9776 0.0088 250);
+  --paper: oklch(0.9963 0.0025 250);
+  --success: oklch(0.5198 0.0987 160.15);
+
+  --background: var(--cream);
+  --foreground: oklch(0.2413 0.0242 259);
+  --card: var(--paper);
+  --card-foreground: oklch(0.2413 0.0242 259);
+  --popover: var(--paper);
+  --popover-foreground: oklch(0.2413 0.0242 259);
+  --primary: var(--wine);
+  --primary-foreground: oklch(0.9963 0.0025 250);
+  --secondary: var(--gold);
+  --secondary-foreground: oklch(0.235 0.0407 68);
+  --muted: oklch(0.9295 0.0125 251);
+  --muted-foreground: oklch(0.4494 0.0215 258);
+  --accent: oklch(0.9421 0.0209 250);
+  --accent-foreground: oklch(0.3355 0.0745 258);
+  --destructive: oklch(0.505 0.19 25);
+  --destructive-foreground: oklch(0.9963 0.0025 250);
+  --border: oklch(0.9 0.0148 250);
+  --input: oklch(0.79 0.0247 252);
+  --ring: var(--wine);
+}
+
+
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    line-height: 1.55;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    color: var(--wine);
+  }
+}
+
+@utility s8-card {
+  background-color: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 1.125rem;
+  padding: 1.375rem;
+  box-shadow: var(--shadow-panel);
+}
+
+@utility s8-field {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid var(--input);
+  border-radius: 0.625rem;
+  background: var(--paper);
+  font: inherit;
+  color: var(--foreground);
+}
+
+@utility s8-field-focus {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+
+@utility s8-label {
+  display: block;
+  font-weight: 700;
+  margin: 0.75rem 0 0.375rem;
+  font-size: 0.9rem;
+}
+
+@utility s8-notice {
+  border-left: 5px solid var(--gold);
+  background: oklch(0.9714 0.0344 88.77);
+  padding: 0.875rem;
+  border-radius: 0.5rem;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+}
