@@ -2,7 +2,8 @@
   "painel": {
     "path": "apps/painel-ldr",
     "domain": "painel.ldrrhestrategia.com",
-    "type": "TanStack Start full-stack"
+    "type": "TanStack Start full-stack",
+    "source": "consolidado de apps 2 + apps 3 + apps 4"
   },
   "site": {
     "path": "apps/luciano-empreendedor",
