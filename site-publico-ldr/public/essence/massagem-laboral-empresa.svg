@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Massagem laboral em ambiente empresarial</title>
+  <desc id="desc">Ilustração corporativa de um profissional realizando massagem relaxante nos ombros de um colaborador sentado em um escritório.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#081d3a"/>
+      <stop offset="1" stop-color="#173d68"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d9b767"/>
+      <stop offset="1" stop-color="#f3df9b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" rx="44" fill="url(#bg)"/>
+  <circle cx="1040" cy="120" r="180" fill="#ffffff" opacity=".045"/>
+  <circle cx="130" cy="660" r="230" fill="#d9b767" opacity=".07"/>
+  <rect x="90" y="115" width="360" height="470" rx="22" fill="#f6f1e7"/>
+  <rect x="120" y="150" width="300" height="170" rx="14" fill="#dfe9ef"/>
+  <rect x="145" y="175" width="112" height="120" rx="10" fill="#9db7ca"/>
+  <rect x="280" y="175" width="115" height="120" rx="10" fill="#b8cad6"/>
+  <rect x="145" y="355" width="250" height="18" rx="9" fill="#c8b06b" opacity=".75"/>
+  <rect x="145" y="395" width="205" height="15" rx="7" fill="#173d68" opacity=".28"/>
+  <rect x="145" y="430" width="235" height="15" rx="7" fill="#173d68" opacity=".2"/>
+  <rect x="145" y="465" width="180" height="15" rx="7" fill="#173d68" opacity=".15"/>
+  <rect x="735" y="130" width="365" height="240" rx="28" fill="#ffffff" opacity=".08"/>
+  <rect x="770" y="170" width="295" height="22" rx="11" fill="#ffffff" opacity=".45"/>
+  <rect x="770" y="215" width="235" height="16" rx="8" fill="#ffffff" opacity=".2"/>
+  <rect x="770" y="250" width="270" height="16" rx="8" fill="#ffffff" opacity=".16"/>
+  <rect x="770" y="285" width="200" height="16" rx="8" fill="#ffffff" opacity=".12"/>
+  <ellipse cx="690" cy="635" rx="250" ry="45" fill="#000" opacity=".18"/>
+  <rect x="610" y="530" width="170" height="130" rx="30" fill="#d9b767"/>
+  <rect x="655" y="635" width="34" height="90" rx="16" fill="#d9b767"/>
+  <rect x="715" y="635" width="34" height="90" rx="16" fill="#d9b767"/>
+  <circle cx="690" cy="355" r="72" fill="#c98d69"/>
+  <path d="M620 345c8-78 132-96 145-5-42-34-92-38-145 5Z" fill="#222d3d"/>
+  <path d="M590 440c36-62 171-64 210 0l-24 125H612Z" fill="#f6f1e7"/>
+  <path d="M635 430c12 35 92 35 108 0" fill="none" stroke="#d9b767" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="865" cy="355" r="64" fill="#b87855"/>
+  <path d="M808 349c10-77 119-84 126-4-38-25-84-31-126 4Z" fill="#121d30"/>
+  <path d="M812 428c18-50 111-62 146-16l45 172H825Z" fill="#173d68"/>
+  <path d="M820 455c-52 10-82 45-103 92" fill="none" stroke="#b87855" stroke-width="24" stroke-linecap="round"/>
+  <path d="M934 451c-25 8-42 31-60 58" fill="none" stroke="#b87855" stroke-width="24" stroke-linecap="round"/>
+  <circle cx="710" cy="538" r="16" fill="#b87855"/>
+  <circle cx="864" cy="516" r="16" fill="#b87855"/>
+  <path d="M692 511c5-38 30-73 65-92" fill="none" stroke="#b87855" stroke-width="22" stroke-linecap="round"/>
+  <path d="M856 495c-10-44-37-70-78-82" fill="none" stroke="#b87855" stroke-width="22" stroke-linecap="round"/>
+  <rect x="560" y="682" width="300" height="22" rx="11" fill="url(#gold)" opacity=".9"/>
+  <text x="90" y="690" fill="#f3df9b" font-family="Arial, sans-serif" font-size="28" font-weight="700">BEM-ESTAR CORPORATIVO</text>
+</svg>
