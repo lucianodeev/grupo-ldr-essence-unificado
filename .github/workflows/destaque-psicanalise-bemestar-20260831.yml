@@ -1,0 +1,29 @@
+name: Destaques Psicanalise e Bem-estar
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/destaque-psicanalise-bemestar-20260831.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Aplicar destaques
+        run: python .github/scripts/destaque_psicanalise_bemestar.py
+      - name: Commitar
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name ldr-rh-campanhas
+          git config user.email llucianouam@gmail.com
+          git add site-publico-ldr/app/page.tsx
+          git commit -m "feat(site): destaca psicanalise e bem-estar corporativo"
+          git push origin main
