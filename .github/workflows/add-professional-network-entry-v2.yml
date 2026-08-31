@@ -1,0 +1,57 @@
+name: Add Professional Network Entry V2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/add-professional-network-entry-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add multilingual network entry safely
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('site-publico-ldr/app/page.tsx')
+          s=p.read_text(encoding='utf-8')
+          replacements={
+            'nav:["Início","Ecossistema","Serviços e soluções","LDR RH & Estratégia","Candidatos","Contato"]':'nav:["Início","Ecossistema","Serviços e soluções","LDR RH & Estratégia","Candidatos","Contato","Para profissionais"]',
+            'nav:["Accueil","Écosystème","Services et solutions","LDR RH & Estratégia","Candidats","Contact"]':'nav:["Accueil","Écosystème","Services et solutions","LDR RH & Estratégia","Candidats","Contact","Pour les professionnels"]',
+            'nav:["Home","Ecosystem","Services and solutions","LDR RH & Estratégia","Candidates","Contact"]':'nav:["Home","Ecosystem","Services and solutions","LDR RH & Estratégia","Candidates","Contact","For professionals"]',
+            'nav:["Inicio","Ecosistema","Servicios y soluciones","LDR RH & Estratégia","Candidatos","Contacto"]':'nav:["Inicio","Ecosistema","Servicios y soluciones","LDR RH & Estratégia","Candidatos","Contacto","Para profesionales"]',
+          }
+          for a,b in replacements.items(): s=s.replace(a,b)
+          s=s.replace('<a href="#contato">{c.nav[5]}</a></nav>','<a href="#contato">{c.nav[5]}</a><a href="https://painel.ldrrhestrategia.com/para-profissionais">{c.nav[6]}</a></nav>')
+          s=s.replace('<a href={withLang("/candidatos")}>{c.nav[4]}</a></div><div><strong>{c.social}</strong>','<a href={withLang("/candidatos")}>{c.nav[4]}</a><a href="https://painel.ldrrhestrategia.com/para-profissionais">{c.nav[6]}</a></div><div><strong>{c.social}</strong>')
+          marker='  const withLang = (path: string) => `${path}?lang=${lang}`;'
+          if 'const networkCopy =' not in s:
+            n='''  const networkCopy = ({\n    pt:{label:"REDE DE PROFISSIONAIS LDR",title:"Você não entra apenas em uma plataforma. Você entra em um ecossistema profissional.",text:"Perfil profissional, agenda, checkout, painel financeiro, treinamentos ao vivo, comunidade e ferramentas reunidas em um único ambiente.",join:"FAÇA PARTE DA REDE",find:"ENCONTRE UM PROFISSIONAL",items:["Perfil público","Agenda integrada","Checkout pelo site","Painel financeiro","Treinamentos ao vivo","Comunidade LDR"]},\n    en:{label:"LDR PROFESSIONAL NETWORK",title:"You are not just joining a platform. You are joining a professional ecosystem.",text:"Professional profile, scheduling, checkout, financial dashboard, live training, community and tools in one environment.",join:"JOIN THE NETWORK",find:"FIND A PROFESSIONAL",items:["Public profile","Integrated schedule","Website checkout","Financial dashboard","Live training","LDR community"]},\n    fr:{label:"RÉSEAU DE PROFESSIONNELS LDR",title:"Vous ne rejoignez pas seulement une plateforme. Vous rejoignez un écosystème professionnel.",text:"Profil professionnel, agenda, paiement, tableau de bord financier, formations en direct, communauté et outils réunis au même endroit.",join:"REJOINDRE LE RÉSEAU",find:"TROUVER UN PROFESSIONNEL",items:["Profil public","Agenda intégré","Paiement sur le site","Tableau de bord financier","Formations en direct","Communauté LDR"]},\n    es:{label:"RED DE PROFESIONALES LDR",title:"No entras solamente en una plataforma. Entras en un ecosistema profesional.",text:"Perfil profesional, agenda, checkout, panel financiero, formaciones en vivo, comunidad y herramientas en un único entorno.",join:"UNIRME A LA RED",find:"ENCONTRAR UN PROFESIONAL",items:["Perfil público","Agenda integrada","Checkout en el sitio","Panel financiero","Formaciones en vivo","Comunidad LDR"]}\n  } as const)[lang];'''
+            s=s.replace(marker,marker+'\n'+n)
+          anchor='    <section className="unifiedRhFeature">'
+          if 'professional-network-title' not in s:
+            block='''    <section aria-labelledby="professional-network-title" style={{padding:"clamp(52px,7vw,92px) clamp(20px,6vw,88px)",background:"#0b2343",color:"#fff"}}><div style={{maxWidth:1180,margin:"0 auto",display:"grid",gap:28,gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",alignItems:"center"}}><div><span style={{fontSize:12,fontWeight:900,letterSpacing:".16em",color:"#d5b86d"}}>{networkCopy.label}</span><h2 id="professional-network-title" style={{fontSize:"clamp(32px,4vw,50px)",lineHeight:1.08,margin:"12px 0 14px"}}>{networkCopy.title}</h2><p style={{fontSize:16,lineHeight:1.7,color:"#e5e7eb"}}>{networkCopy.text}</p><div style={{display:"flex",flexWrap:"wrap",gap:12,marginTop:22}}><a href="https://painel.ldrrhestrategia.com/para-profissionais" style={{display:"inline-flex",padding:"13px 18px",borderRadius:12,background:"#d5b86d",color:"#0b2343",fontWeight:900,textDecoration:"none"}}>{networkCopy.join} →</a><a href="https://painel.ldrrhestrategia.com/profissionais" style={{display:"inline-flex",padding:"13px 18px",borderRadius:12,border:"1px solid rgba(255,255,255,.45)",color:"#fff",fontWeight:800,textDecoration:"none"}}>{networkCopy.find}</a></div></div><div style={{display:"grid",gridTemplateColumns:"repeat(2,minmax(0,1fr))",gap:12}}>{networkCopy.items.map(item=><div key={item} style={{border:"1px solid rgba(255,255,255,.18)",borderRadius:18,padding:18,background:"rgba(255,255,255,.07)",fontWeight:800}}>{item}</div>)}</div></div></section>\n'''
+            s=s.replace(anchor,block+anchor)
+          if 'professional-network-title' not in s or 'networkCopy' not in s:
+            raise SystemExit('Network entry was not applied')
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Basic source validation
+        run: |
+          grep -q 'professional-network-title' site-publico-ldr/app/page.tsx
+          grep -q 'painel.ldrrhestrategia.com/para-profissionais' site-publico-ldr/app/page.tsx
+          grep -q 'const networkCopy' site-publico-ldr/app/page.tsx
+      - name: Commit
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name 'ldr-rh-campanhas'
+          git config user.email 'llucianouam@gmail.com'
+          git add site-publico-ldr/app/page.tsx
+          git commit -m 'feat(site): adiciona Rede de Profissionais ao ecossistema'
+          git push origin main
