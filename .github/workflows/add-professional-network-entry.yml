@@ -1,0 +1,54 @@
+name: Add Professional Network Entry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/add-professional-network-entry.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add network entry
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('site-publico-ldr/app/page.tsx')
+          s=p.read_text(encoding='utf-8')
+          replacements={
+            'nav:["Início","Ecossistema","Serviços e soluções","LDR RH & Estratégia","Candidatos","Contato"]':'nav:["Início","Ecossistema","Serviços e soluções","LDR RH & Estratégia","Candidatos","Contato","Para profissionais"]',
+            'nav:["Accueil","Écosystème","Services et solutions","LDR RH & Estratégia","Candidats","Contact"]':'nav:["Accueil","Écosystème","Services et solutions","LDR RH & Estratégia","Candidats","Contact","Pour les professionnels"]',
+            'nav:["Home","Ecosystem","Services and solutions","LDR RH & Estratégia","Candidates","Contact"]':'nav:["Home","Ecosystem","Services and solutions","LDR RH & Estratégia","Candidates","Contact","For professionals"]',
+            'nav:["Inicio","Ecosistema","Servicios y soluciones","LDR RH & Estratégia","Candidatos","Contacto"]':'nav:["Inicio","Ecosistema","Servicios y soluciones","LDR RH & Estratégia","Candidatos","Contacto","Para profesionales"]',
+          }
+          for a,b in replacements.items(): s=s.replace(a,b)
+          old='<a href="#contato">{c.nav[5]}</a></nav>'
+          new='<a href="#contato">{c.nav[5]}</a><a href="https://painel.ldrrhestrategia.com/para-profissionais">{c.nav[6]}</a></nav>'
+          s=s.replace(old,new)
+          old='<a href={withLang("/candidatos")}>{c.nav[4]}</a></div><div><strong>{c.social}</strong>'
+          new='<a href={withLang("/candidatos")}>{c.nav[4]}</a><a href="https://painel.ldrrhestrategia.com/para-profissionais">{c.nav[6]}</a></div><div><strong>{c.social}</strong>'
+          s=s.replace(old,new)
+          anchor='    <section className="unifiedRhFeature">'
+          block='''    <section aria-labelledby="professional-network-title" style={{padding:"clamp(52px,7vw,92px) clamp(20px,6vw,88px)",background:"#0b2343",color:"#fff"}}><div style={{maxWidth:1180,margin:"0 auto",display:"grid",gap:28,gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",alignItems:"center"}}><div><span style={{fontSize:12,fontWeight:900,letterSpacing:".16em",color:"#d5b86d"}}>REDE DE PROFISSIONAIS LDR</span><h2 id="professional-network-title" style={{fontSize:"clamp(32px,4vw,50px)",lineHeight:1.08,margin:"12px 0 14px"}}>Você não entra apenas em uma plataforma. Você entra em um ecossistema profissional.</h2><p style={{fontSize:16,lineHeight:1.7,color:"#e5e7eb"}}>Perfil profissional, agenda, checkout, painel financeiro, treinamentos ao vivo, comunidade e ferramentas reunidas em um único ambiente. Estrutura para Brasil e Europa, com análise por profissão e país.</p><div style={{display:"flex",flexWrap:"wrap",gap:12,marginTop:22}}><a href="https://painel.ldrrhestrategia.com/para-profissionais" style={{display:"inline-flex",padding:"13px 18px",borderRadius:12,background:"#d5b86d",color:"#0b2343",fontWeight:900,textDecoration:"none"}}>FAÇA PARTE DA REDE →</a><a href="https://painel.ldrrhestrategia.com/profissionais" style={{display:"inline-flex",padding:"13px 18px",borderRadius:12,border:"1px solid rgba(255,255,255,.45)",color:"#fff",fontWeight:800,textDecoration:"none"}}>ENCONTRE UM PROFISSIONAL</a></div></div><div style={{display:"grid",gridTemplateColumns:"repeat(2,minmax(0,1fr))",gap:12}}>{["Perfil público","Agenda integrada","Checkout pelo site","Painel financeiro","Treinamentos ao vivo","Comunidade LDR"].map(item=><div key={item} style={{border:"1px solid rgba(255,255,255,.18)",borderRadius:18,padding:18,background:"rgba(255,255,255,.07)",fontWeight:800}}>{item}</div>)}</div></div></section>\n'''
+          if 'professional-network-title' not in s:
+            s=s.replace(anchor,block+anchor)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Validate
+        working-directory: site-publico-ldr
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+      - name: Commit
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name 'ldr-rh-campanhas'
+          git config user.email 'llucianouam@gmail.com'
+          git add site-publico-ldr/app/page.tsx
+          git commit -m 'feat(site): adiciona Rede de Profissionais ao ecossistema'
+          git push origin main
