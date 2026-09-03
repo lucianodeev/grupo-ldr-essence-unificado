@@ -1,0 +1,88 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Seja Vendedor LDR</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+:root{--navy:#071d38;--navy2:#123d70;--gold:#d4a64f;--bg:#f5f7fa;--text:#17212b;--muted:#687889;--line:#dbe3eb;--ok:#087443;--bad:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:22px;border-bottom:4px solid var(--gold)}
+header h1{margin:0;font-family:Georgia,serif;font-size:clamp(26px,7vw,34px)}header p{margin:6px 0 0;color:#dbe7f3}
+.wrap{max-width:1050px;margin:auto;padding:14px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0;box-shadow:0 4px 14px #071d380d}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.btn{border:0;border-radius:10px;padding:12px 15px;font-weight:700;cursor:pointer;min-height:44px}.primary{background:var(--navy);color:#fff}.gold{background:var(--gold);color:#17212b}.ghost{background:#eef3f7;color:var(--navy)}.danger{background:#fee8e6;color:var(--bad)}
+.field{width:100%;padding:12px;border:1px solid #c9d3de;border-radius:10px;font-size:16px;margin-top:6px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.small{font-size:12px;color:var(--muted)}.hidden{display:none!important}.msg{padding:11px;border-radius:10px;margin:10px 0;background:#eef7ff}.ok{background:#e4f7ec;color:#08603b}.err{background:#fee8e6;color:var(--bad)}
+.stat b{display:block;font-size:23px}.stat span{font-size:12px;color:var(--muted)}.item{border:1px solid var(--line);border-radius:12px;padding:12px;margin:9px 0}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#eef3f7;font-size:12px}
+h2,h3{font-family:Georgia,serif}.hero h2{font-size:clamp(30px,8vw,42px);margin:.1em 0}.benefits{padding-left:18px}.benefits li{margin:8px 0}
+@media(max-width:760px){.two{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.row .btn{flex:1 1 140px}}
+@media(max-width:430px){.grid{grid-template-columns:1fr}}
+</style></head><body>
+<header><h1>Rede Comercial LDR</h1><p>Grupo LDR Essence — oportunidade para parceiros comerciais independentes</p></header>
+<main class="wrap">
+<section id="landing">
+<div class="card hero"><div class="small">OPORTUNIDADE COMERCIAL</div><h2>Venda produtos e serviços do Grupo LDR Essence</h2>
+<p>Você pode trabalhar de forma independente, organizar sua própria rotina e receber comissão por vendas confirmadas.</p>
+<ul class="benefits"><li>Sem horário fixo.</li><li>Atuação remota.</li><li>Comissão por venda confirmada.</li><li>Acompanhamento das vendas pelo seu painel.</li><li>Pagamentos de comissão a cada 15 dias, por transferência manual.</li></ul>
+<p class="small">Parceria comercial independente. Não há salário fixo, garantia de vendas ou vínculo empregatício.</p>
+<div class="row"><button class="btn primary" onclick="show('signup')">Quero começar</button><button class="btn gold" onclick="show('login')">Já tenho conta</button></div></div>
+<div class="card"><h3>Comissões</h3><div class="grid"><div class="stat"><b>20%</b><span>Produtos digitais</span></div><div class="stat"><b>15%</b><span>Treinamentos</span></div><div class="stat"><b>15%</b><span>Mentoria e carreira</span></div><div class="stat"><b>15%</b><span>Marketing e sites</span></div><div class="stat"><b>10%</b><span>Bem-estar</span></div><div class="stat"><b>10%</b><span>Recrutamento</span></div><div class="stat"><b>7,5%</b><span>Contratos empresariais</span></div></div></div>
+</section>
+<section id="signup" class="hidden"><div class="card"><h2>Criar conta de vendedor</h2><div class="two">
+<label>Nome completo<input id="suName" class="field"></label><label>E-mail<input id="suEmail" class="field" type="email"></label><label>Senha<input id="suPass" class="field" type="password" minlength="8"></label><label>WhatsApp<input id="suPhone" class="field"></label><label>País<input id="suCountry" class="field"></label><label>Moeda<select id="suCurrency" class="field"><option>EUR</option><option>BRL</option></select></label></div><br><div class="row"><button class="btn primary" onclick="signup()">Criar conta e começar</button><button class="btn ghost" onclick="show('landing')">Voltar</button></div><div id="suMsg"></div></div></section>
+<section id="login" class="hidden"><div class="card"><h2>Entrar no painel</h2><label>E-mail<input id="liEmail" class="field" type="email"></label><br><label>Senha<input id="liPass" class="field" type="password"></label><br><div class="row"><button class="btn primary" onclick="login()">Entrar</button><button class="btn ghost" onclick="show('landing')">Voltar</button></div><div id="liMsg"></div></div></section>
+<section id="complete" class="hidden"><div class="card"><h2>Complete seu perfil</h2><div class="two"><label>Nome completo<input id="cpName" class="field"></label><label>WhatsApp<input id="cpPhone" class="field"></label><label>País<input id="cpCountry" class="field"></label><label>Moeda<select id="cpCurrency" class="field"><option>EUR</option><option>BRL</option></select></label></div><br><button class="btn primary" onclick="completeProfile()">Salvar e entrar</button><div id="cpMsg"></div></div></section>
+<section id="panel" class="hidden">
+<div class="card"><div class="row"><div style="flex:1"><h2>Meu painel</h2><div id="sellerInfo"></div></div><button class="btn ghost" onclick="logout()">Sair</button></div></div>
+<div class="grid"><div class="card stat"><b id="totalSales">0</b><span>Vendas</span></div><div class="card stat"><b id="pendingValue">€0</b><span>Em validação</span></div><div class="card stat"><b id="availableValue">€0</b><span>A receber</span></div><div class="card stat"><b id="nextPay">—</b><span>Próximo pagamento</span></div></div>
+<div class="two"><div class="card"><h3>Cadastrar nova venda</h3><label>Nome do cliente<input id="clName" class="field"></label><br><label>E-mail/contato do cliente<input id="clEmail" class="field"></label><br><label>Produto ou serviço<input id="prName" class="field"></label><br><label>Categoria<select id="category" class="field"><option value="digital">Produto digital — 20%</option><option value="training">Treinamento — 15%</option><option value="mentoring">Mentoria — 15%</option><option value="career">Carreira — 15%</option><option value="marketing">Marketing/site — 15%</option><option value="wellbeing">Bem-estar — 10%</option><option value="recruitment">Recrutamento — 10%</option><option value="business">Contrato empresarial — 7,5%</option><option value="service">Outro serviço — 10%</option></select></label><br><div class="two"><label>Valor da venda<input id="saleAmount" class="field" type="number" step="0.01" min="0.01"></label><label>Moeda<select id="saleCurrency" class="field"><option>EUR</option><option>BRL</option></select></label></div><br><button class="btn primary" onclick="registerSale()">Cadastrar venda</button><div id="saleMsg"></div></div>
+<div><div class="card"><h3>Minhas vendas</h3><div id="salesList"></div></div><div class="card"><h3>Pagamentos recebidos</h3><div id="payoutsList"></div></div></div></div>
+</section>
+</main>
+<script>
+const db=supabase.createClient('https://sfrcsrzuoqdscflfuwik.supabase.co','sb_publishable_nN4RVHqSvj84P-GtTJfKgw_QNUGa6Sb');
+const E=id=>document.getElementById(id);
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function msg(id,t,ok=true){E(id).innerHTML='<div class="msg '+(ok?'ok':'err')+'">'+esc(t)+'</div>'}
+function show(id){['landing','signup','login','complete','panel'].forEach(x=>E(x).classList.toggle('hidden',x!==id))}
+function money(c,curr){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:curr}).format((Number(c)||0)/100)}
+function nextPayDate(){const d=new Date(),day=d.getDate();let p;if(day<=15)p=new Date(d.getFullYear(),d.getMonth(),15);else p=new Date(d.getFullYear(),d.getMonth()+1,0);return p.toLocaleDateString('pt-BR')}
+async function signup(){
+ const profile={name:E('suName').value.trim(),phone:E('suPhone').value.trim(),country:E('suCountry').value.trim(),currency:E('suCurrency').value};
+ if(!profile.name||!E('suEmail').value||E('suPass').value.length<8)return msg('suMsg','Preencha nome, e-mail e uma senha de pelo menos 8 caracteres.',false);
+ localStorage.setItem('ldr_pending_profile',JSON.stringify(profile));
+ const {data,error}=await db.auth.signUp({email:E('suEmail').value.trim(),password:E('suPass').value});
+ if(error)return msg('suMsg',error.message,false);
+ if(data.session){await ensureProfile();await openPanel();}
+ else msg('suMsg','Conta criada. Confirme o e-mail recebido e depois entre no painel.');
+}
+async function login(){
+ const {error}=await db.auth.signInWithPassword({email:E('liEmail').value.trim(),password:E('liPass').value});
+ if(error)return msg('liMsg',error.message,false);await ensureProfile();await openPanel();
+}
+async function ensureProfile(){
+ const {data:{user}}=await db.auth.getUser();if(!user)return false;
+ const {data:acc}=await db.from('seller_accounts').select('*').eq('user_id',user.id).maybeSingle();if(acc)return true;
+ const p=JSON.parse(localStorage.getItem('ldr_pending_profile')||'null');if(!p){show('complete');return false}
+ const {error}=await db.rpc('seller_self_register',{p_full_name:p.name,p_phone:p.phone||'',p_country:p.country||'',p_preferred_currency:p.currency||'EUR'});
+ if(error){show('complete');msg('cpMsg',error.message,false);return false} localStorage.removeItem('ldr_pending_profile');return true;
+}
+async function completeProfile(){
+ const {error}=await db.rpc('seller_self_register',{p_full_name:E('cpName').value.trim(),p_phone:E('cpPhone').value.trim(),p_country:E('cpCountry').value.trim(),p_preferred_currency:E('cpCurrency').value});
+ if(error)return msg('cpMsg',error.message,false);await openPanel();
+}
+async function openPanel(){
+ const ok=await ensureProfile();if(!ok)return;show('panel');const {data:{user}}=await db.auth.getUser();const {data:acc}=await db.from('seller_accounts').select('*').eq('user_id',user.id).maybeSingle();
+ E('sellerInfo').innerHTML='<b>'+esc(acc.full_name)+'</b><br><span class="small">Código '+esc(acc.referral_code)+' · '+esc(acc.preferred_currency)+'</span>';E('saleCurrency').value=acc.preferred_currency;await loadData();
+}
+async function registerSale(){
+ const {error}=await db.rpc('seller_register_sale',{p_customer_name:E('clName').value.trim(),p_customer_email:E('clEmail').value.trim()||null,p_product_name:E('prName').value.trim(),p_product_category:E('category').value,p_amount:Number(E('saleAmount').value),p_currency:E('saleCurrency').value,p_payment_reference:null,p_notes:null});
+ if(error)return msg('saleMsg',error.message,false);msg('saleMsg','Venda cadastrada. Aguarde a validação da LDR.');E('clName').value=E('clEmail').value=E('prName').value=E('saleAmount').value='';loadData();
+}
+async function loadData(){
+ const [sr,pr]=await Promise.all([db.from('seller_sales').select('*').order('sold_at',{ascending:false}),db.from('seller_payouts').select('*').order('created_at',{ascending:false})]);
+ const sales=sr.data||[],pays=pr.data||[];E('totalSales').textContent=sales.length;E('nextPay').textContent=nextPayDate();
+ const sums={EUR:{pending:0,available:0},BRL:{pending:0,available:0}};sales.forEach(x=>{if(['pending','confirmed'].includes(x.status))sums[x.currency].pending+=x.commission_cents;if(x.status==='available')sums[x.currency].available+=x.commission_cents});
+ E('pendingValue').textContent=money(sums.EUR.pending,'EUR')+' / '+money(sums.BRL.pending,'BRL');E('availableValue').textContent=money(sums.EUR.available,'EUR')+' / '+money(sums.BRL.available,'BRL');
+ E('salesList').innerHTML=sales.map(x=>'<div class="item"><b>'+esc(x.product_name)+'</b> · '+money(x.amount_cents,x.currency)+'<br><span class="small">Cliente: '+esc(x.customer_name)+' · Comissão '+x.commission_rate+'% = '+money(x.commission_cents,x.currency)+' · '+esc(x.status)+'</span></div>').join('')||'<p class="small">Nenhuma venda ainda.</p>';
+ E('payoutsList').innerHTML=pays.map(x=>'<div class="item"><b>'+money(x.amount_cents,x.currency)+'</b><br><span class="small">Pago em '+(x.paid_at?new Date(x.paid_at).toLocaleDateString('pt-BR'):'—')+' · '+esc(x.payment_reference||'transferência manual')+'</span></div>').join('')||'<p class="small">Nenhum pagamento ainda.</p>';
+}
+async function logout(){await db.auth.signOut();show('landing')}
+(async()=>{const {data:{user}}=await db.auth.getUser();if(user){await ensureProfile();if(!E('complete').classList.contains('hidden'))return;await openPanel();}})();
+</script></body></html>
