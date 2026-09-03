@@ -1,0 +1,36 @@
+name: Fix Seller Start Here
+on:
+  push:
+    paths:
+      - 'tools/fix_seller_start_here.py'
+      - '.github/workflows/fix-seller-start-here.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply Start Here integration
+        run: python tools/fix_seller_start_here.py
+      - name: Validate JavaScript
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          s=Path('rede-comercial-final/vendedor.html').read_text(encoding='utf-8')
+          js=s.rsplit('<script>',1)[1].split('</script>',1)[0]
+          Path('/tmp/vendedor.js').write_text(js,encoding='utf-8')
+          PY
+          node --check /tmp/vendedor.js
+      - name: Validate diff
+        run: git diff --check
+      - name: Commit and publish
+        run: |
+          git config user.name "ldr-rh-campanhas"
+          git config user.email "llucianouam@gmail.com"
+          git add rede-comercial-final/vendedor.html
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "fix: integrate Commercial Academy into seller Start Here"
+          git push origin HEAD:main
