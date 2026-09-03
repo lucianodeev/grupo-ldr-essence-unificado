@@ -41,4 +41,5 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-# GitHub Pages source enabled on 2026-09-03; this comment intentionally retriggers deployment.
+# GitHub Pages source enabled on 2026-09-03.
+# Republished after integrating Academia Comercial LDR into the seller Start Here flow.
