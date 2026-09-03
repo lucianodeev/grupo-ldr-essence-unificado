@@ -1,0 +1,39 @@
+name: Add Existing Seller CTA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/add_existing_seller_cta.py'
+      - '.github/workflows/add-existing-seller-cta.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply existing seller CTA patch
+        run: python tools/add_existing_seller_cta.py
+      - name: Validate JavaScript
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('rede-comercial-final/vendedor.html').read_text(encoding='utf-8')
+          scripts=re.findall(r'<script>(.*?)</script>',s,re.S)
+          Path('/tmp/vendedor.js').write_text('\n'.join(scripts),encoding='utf-8')
+          PY
+          node --check /tmp/vendedor.js
+      - name: Validate diff
+        run: git diff --check
+      - name: Commit portal update
+        run: |
+          git config user.name "ldr-rh-campanhas"
+          git config user.email "llucianouam@gmail.com"
+          git add rede-comercial-final/vendedor.html
+          git diff --cached --quiet || git commit -m "feat: add direct existing seller login CTA"
+          git push
