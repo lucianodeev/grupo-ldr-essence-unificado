@@ -1,0 +1,97 @@
+name: Add seller recurring plans
+
+on:
+  push:
+    paths:
+      - '.github/workflows/add-seller-recurring-plans.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch seller portal
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          p=Path('rede-comercial-final/vendedor.html')
+          s=p.read_text(encoding='utf-8')
+          if 'id="recurringPlans"' in s:
+              print('Recurring plans already present')
+              raise SystemExit(0)
+
+          css='''.plan-section{border:1px solid #e6d29b;background:linear-gradient(145deg,#fffdf7,#fff)}.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.plan{border:1px solid var(--l);border-radius:14px;padding:15px;background:#fff}.plan h3{margin:6px 0}.prices{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.price-chip{background:#eef3f7;border-radius:10px;padding:8px 10px;font-size:13px;font-weight:800}.plan-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.plan .tag{display:inline-block;border-radius:999px;background:#fff6dd;color:#7a570f;padding:4px 8px;font-size:12px;font-weight:800}@media(max-width:800px){.plan-grid{grid-template-columns:1fr 1fr}}@media(max-width:460px){.plan-grid{grid-template-columns:1fr}}'''
+          s=s.replace('</style>',css+'</style>',1)
+
+          plans_html='''<div id="recurringPlans" class="card plan-section"></div>'''
+          anchor='<div class="two"><div class="card"><h2 data-i="registerSale">Cadastrar uma venda</h2>'
+          if anchor not in s:
+              raise SystemExit('HTML anchor not found')
+          s=s.replace(anchor,plans_html+anchor,1)
+
+          js=r'''const RECURRING_PRODUCTS=[
+['plan-biz-essential','business','Plano Empresa ESSENCIAL / Company ESSENTIAL Plan / Plan Entreprise ESSENTIEL / Plan Empresa ESENCIAL','Plano mensal para empresas de 1 a 10 funcionários, com 4 créditos/mês.','Plan mensuel pour entreprises de 1 à 10 employés avec 4 crédits/mois.','Monthly plan for companies with 1 to 10 employees and 4 credits/month.','Plan mensual para empresas de 1 a 10 empleados con 4 créditos/mes.'],
+['plan-biz-pro','business','Plano Empresa PRO / Company PRO Plan / Plan Entreprise PRO / Plan Empresa PRO','Plano mensal para empresas de 11 a 50 funcionários, com 12 créditos/mês.','Plan mensuel pour entreprises de 11 à 50 employés avec 12 crédits/mois.','Monthly plan for companies with 11 to 50 employees and 12 credits/month.','Plan mensual para empresas de 11 a 50 empleados con 12 créditos/mes.'],
+['plan-biz-custom','business','Plano Empresa PERSONALIZADO / CUSTOM Company Plan / Plan Entreprise PERSONNALISÉ / Plan Empresa PERSONALIZADO','Plano configurável para empresas com 51 ou mais funcionários.','Plan configurable pour entreprises de 51 employés ou plus.','Configurable plan for companies with 51 or more employees.','Plan configurable para empresas con 51 o más empleados.'],
+['plan-prof-basic','service','Plano Profissional / Professional Plan / Plan Professionnel / Plan Profesional','Perfil profissional, página individual, Rede LDR, agenda, checkout e painéis.','Profil professionnel, page individuelle, Réseau LDR, agenda, checkout et tableaux de bord.','Professional profile, individual page, LDR Network, calendar, checkout and dashboards.','Perfil profesional, página individual, Red LDR, agenda, checkout y paneles.'],
+['plan-prof-pro','service','Plano Profissional Pro / Professional Pro Plan / Plan Professionnel Pro / Plan Profesional Pro','Tudo do Profissional + comunidade, treinamentos ao vivo e recursos adicionais.','Tout du plan Professionnel + communauté, formations en direct et ressources supplémentaires.','Everything in Professional + community, live training and additional resources.','Todo lo del Profesional + comunidad, formaciones en vivo y recursos adicionales.'],
+['plan-prof-360','service','Plano Profissional 360 LDR / Professional 360 LDR Plan / Plan Professionnel 360 LDR / Plan Profesional 360 LDR','Tudo do Pro + Mentoria LDR, S8 e ferramentas ampliadas de carreira e desenvolvimento.','Tout du Pro + Mentorat LDR, S8 et outils élargis de carrière et développement.','Everything in Pro + LDR Mentoring, S8 and expanded career and development tools.','Todo lo del Pro + Mentoría LDR, S8 y herramientas ampliadas de carrera y desarrollo.']
+];
+C.push(...RECURRING_PRODUCTS);
+const PLAN_COPY={
+pt:{title:'Planos e soluções recorrentes',sub:'Use estes cards para entender os planos mensais e registrar a venda sem sair do painel.',company:'Planos mensais para empresas',professional:'Planos para profissionais',register:'Registrar venda',details:'Ver detalhes',how:'Como vender estes planos',s1:'1. Identifique a necessidade do cliente.',s2:'2. Apresente o plano adequado e explique o valor.',s3:'3. Feche a venda e registre aqui no painel.',notice:'A Rede de Profissionais LDR não garante clientes. A assinatura oferece estrutura, presença, ferramentas, comunidade e desenvolvimento. A plataforma cobra 10% sobre atendimentos efetivamente pagos pela plataforma, além da assinatura mensal.'},
+fr:{title:'Plans et solutions récurrentes',sub:'Utilisez ces cartes pour comprendre les abonnements mensuels et enregistrer la vente sans quitter votre espace.',company:'Plans mensuels pour entreprises',professional:'Plans pour professionnels',register:'Enregistrer la vente',details:'Voir les détails',how:'Comment vendre ces plans',s1:'1. Identifiez le besoin du client.',s2:'2. Présentez le plan adapté et sa valeur.',s3:'3. Finalisez la vente et enregistrez-la ici.',notice:'Le Réseau LDR ne garantit pas de clients. L’abonnement fournit structure, visibilité, outils, communauté et développement. La plateforme prélève 10 % sur les prestations effectivement payées via la plateforme, en plus de l’abonnement mensuel.'},
+en:{title:'Plans and recurring solutions',sub:'Use these cards to understand monthly plans and register the sale without leaving your dashboard.',company:'Monthly company plans',professional:'Professional plans',register:'Register sale',details:'View details',how:'How to sell these plans',s1:'1. Identify the client’s need.',s2:'2. Present the right plan and explain its value.',s3:'3. Close the sale and register it here.',notice:'The LDR Professional Network does not guarantee clients. The subscription provides structure, visibility, tools, community and development. The platform charges 10% on appointments effectively paid through the platform, in addition to the monthly subscription.'},
+es:{title:'Planes y soluciones recurrentes',sub:'Usa estas tarjetas para entender los planes mensuales y registrar la venta sin salir de tu panel.',company:'Planes mensuales para empresas',professional:'Planes para profesionales',register:'Registrar venta',details:'Ver detalles',how:'Cómo vender estos planes',s1:'1. Identifica la necesidad del cliente.',s2:'2. Presenta el plan adecuado y explica su valor.',s3:'3. Cierra la venta y regístrala aquí.',notice:'La Red Profesional LDR no garantiza clientes. La suscripción ofrece estructura, visibilidad, herramientas, comunidad y desarrollo. La plataforma cobra un 10% sobre las atenciones efectivamente pagadas mediante la plataforma, además de la suscripción mensual.'}
+};
+const COMPANY_PLANS=[
+['plan-biz-essential','ESSENCIAL','1–10','€149/mês','R$699/mês','4 créditos/mês'],
+['plan-biz-pro','PRO','11–50','€349/mês','R$1.690/mês','12 créditos/mês'],
+['plan-biz-custom','PERSONALIZADO','51+','€6,50 / €5,90 / €5,20 por funcionário','R$29,90 / R$26,90 / R$23,90 por funcionário','créditos variáveis']
+];
+const PROFESSIONAL_PLANS=[
+['plan-prof-basic','Plano Profissional','€19,90/mês','R$59/mês'],
+['plan-prof-pro','Plano Profissional Pro','€39,90/mês','R$119/mês'],
+['plan-prof-360','Plano Profissional 360 LDR','€69,90/mês','R$199/mês']
+];
+function planText(){return PLAN_COPY[lang]||PLAN_COPY.pt}
+function choosePlan(id){E('product').value=id;updateChosen();E('saleForm').scrollIntoView({behavior:'smooth',block:'start'});E('customer').focus()}
+function renderPlans(){const box=E('recurringPlans');if(!box)return;const q=planText();const company=COMPANY_PLANS.map(x=>`<article class="plan"><span class="tag">${x[2]} ${lang==='fr'?'employés':lang==='en'?'employees':lang==='es'?'empleados':'funcionários'}</span><h3>${x[1]}</h3><div class="prices"><span class="price-chip">${x[3]}</span><span class="price-chip">${x[4]}</span></div><p class="small">${x[5]}</p><div class="plan-actions"><button type="button" class="btn primary" onclick="choosePlan('${x[0]}')">${q.register}</button><a class="btn ghost" href="https://painel.ldrrhestrategia.com/empresa" target="_blank" rel="noreferrer">${q.details}</a></div></article>`).join('');const prof=PROFESSIONAL_PLANS.map(x=>`<article class="plan"><span class="tag">Rede de Profissionais LDR</span><h3>${x[1]}</h3><div class="prices"><span class="price-chip">${x[2]}</span><span class="price-chip">${x[3]}</span></div><p class="small">${serviceDesc(C.find(v=>v[0]===x[0]))}</p><div class="plan-actions"><button type="button" class="btn primary" onclick="choosePlan('${x[0]}')">${q.register}</button><a class="btn ghost" href="https://painel.ldrrhestrategia.com/para-profissionais" target="_blank" rel="noreferrer">${q.details}</a></div></article>`).join('');box.innerHTML=`<div class="eyebrow">LDR RECORRENTE</div><h2>${q.title}</h2><p>${q.sub}</p><h3>${q.company}</h3><div class="plan-grid">${company}</div><h3 style="margin-top:20px">${q.professional}</h3><div class="plan-grid">${prof}</div><div class="notice" style="margin-top:14px">${q.notice}</div><h3 style="margin-top:18px">${q.how}</h3><div class="three"><div class="tile">${q.s1}</div><div class="tile">${q.s2}</div><div class="tile">${q.s3}</div></div>`}
+window.choosePlan=choosePlan;
+'''
+          marker='function tr(k)'
+          if marker not in s:
+              raise SystemExit('JS marker not found')
+          s=s.replace(marker,js+marker,1)
+          old='function renderCatalog(){const h=C.map('
+          new="function renderCatalog(){const h=C.filter(x=>!String(x[0]).startsWith('plan-')).map("
+          if old not in s:
+              raise SystemExit('Catalog marker not found')
+          s=s.replace(old,new,1)
+          old2='renderCommissions();renderCatalog();if(token())loadDashboard()'
+          new2='renderCommissions();renderCatalog();renderPlans();if(token())loadDashboard()'
+          if old2 not in s:
+              raise SystemExit('Language marker not found')
+          s=s.replace(old2,new2,1)
+          p.write_text(s,encoding='utf-8')
+          script=s.rsplit('<script>',1)[1].split('</script>',1)[0]
+          Path('/tmp/vendor.js').write_text(script,encoding='utf-8')
+          print('Seller portal patched')
+          PY
+          node --check /tmp/vendor.js
+          git diff --check
+          git config user.name "ldr-rh-campanhas"
+          git config user.email "llucianouam@gmail.com"
+          git add rede-comercial-final/vendedor.html
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "feat: add company and professional plans to seller dashboard"
+          git push origin HEAD:main
