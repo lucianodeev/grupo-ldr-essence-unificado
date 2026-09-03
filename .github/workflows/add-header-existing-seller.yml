@@ -1,0 +1,60 @@
+name: Add Header Existing Seller CTA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/add-header-existing-seller.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add existing seller CTA to header
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('rede-comercial-final/vendedor.html')
+          s=p.read_text()
+          old='<div class="header-actions"><a class="header-apply" href="#join" data-i="ctaJoin" aria-label="Ir para o formulário de candidatura">CANDIDATE-SE</a><div class="langs">'
+          new='<div class="header-actions"><div class="header-cta-group"><a class="header-apply" href="#join" data-i="ctaJoin" aria-label="Ir para o formulário de candidatura">CANDIDATE-SE</a><a class="header-seller" href="#seller-login" data-i="already" aria-label="Ir para o login do vendedor">JÁ SOU VENDEDOR</a></div><div class="langs">'
+          if old not in s:
+              raise SystemExit('Header target not found')
+          s=s.replace(old,new,1)
+          oldcss='.header-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.header-apply{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 15px;border-radius:999px;background:var(--g);color:#17212b;text-decoration:none;font-weight:900;white-space:nowrap;box-shadow:0 3px 12px #0002}.header-apply:hover{filter:brightness(1.04)}.header-apply:focus-visible{outline:3px solid #fff;outline-offset:2px}@media(max-width:800px){.header-actions{width:100%;display:grid;grid-template-columns:1fr}.header-apply{width:100%;min-height:48px;font-size:15px;order:-1}.langs{width:100%}.langs button{min-height:42px}}'
+          newcss='.header-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.header-cta-group{display:flex;gap:8px;flex-wrap:wrap}.header-apply,.header-seller{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 15px;border-radius:999px;text-decoration:none;font-weight:900;white-space:nowrap;box-shadow:0 3px 12px #0002}.header-apply{background:var(--g);color:#17212b}.header-seller{background:#ffffff14;color:#fff;border:1px solid #ffffff66}.header-apply:hover,.header-seller:hover{filter:brightness(1.08)}.header-apply:focus-visible,.header-seller:focus-visible{outline:3px solid #fff;outline-offset:2px}@media(max-width:800px){.header-actions{width:100%;display:grid;grid-template-columns:1fr}.header-cta-group{display:grid;grid-template-columns:1fr 1fr;width:100%}.header-apply,.header-seller{width:100%;min-height:48px;font-size:14px}.langs{width:100%}.langs button{min-height:42px}}@media(max-width:420px){.header-cta-group{grid-template-columns:1fr}.header-apply,.header-seller{min-height:48px}}'
+          if oldcss not in s:
+              raise SystemExit('Header CSS target not found')
+          s=s.replace(oldcss,newcss,1)
+          oldlogin='<div class="card"><h2 data-i="already">Já sou vendedor</h2><label>E-mail'
+          newlogin='<div class="card" id="seller-login"><h2 data-i="already">Já sou vendedor</h2><label>E-mail'
+          if oldlogin not in s:
+              raise SystemExit('Seller login target not found')
+          s=s.replace(oldlogin,newlogin,1)
+          p.write_text(s)
+          PY
+      - name: Validate JavaScript
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, subprocess, tempfile
+          s=Path('rede-comercial-final/vendedor.html').read_text()
+          scripts=re.findall(r'<script>(.*?)</script>',s,re.S)
+          js='\n'.join(scripts)
+          Path('/tmp/ldr-seller.js').write_text(js)
+          PY
+          node --check /tmp/ldr-seller.js
+      - name: Validate diff
+        run: git diff --check
+      - name: Commit portal update
+        run: |
+          git config user.name "ldr-rh-campanhas"
+          git config user.email "llucianouam@gmail.com"
+          git add rede-comercial-final/vendedor.html
+          git commit -m "feat: add existing seller CTA to header"
+          git push
