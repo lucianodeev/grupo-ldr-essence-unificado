@@ -1,0 +1,38 @@
+name: Apply Seller FX Payout
+on:
+  push:
+    paths:
+      - 'tools/patch_fx_payout_portals.py'
+      - '.github/workflows/apply-fx-payout.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply FX payout patch
+        run: python tools/patch_fx_payout_portals.py
+      - name: Validate JavaScript
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          for f in ['rede-comercial-final/vendedor.html','rede-comercial-final/admin.html']:
+              s=Path(f).read_text(encoding='utf-8')
+              js=s.rsplit('<script>',1)[1].split('</script>',1)[0]
+              Path('/tmp/'+Path(f).stem+'.js').write_text(js,encoding='utf-8')
+          PY
+          node --check /tmp/vendedor.js
+          node --check /tmp/admin.js
+      - name: Validate diff
+        run: git diff --check
+      - name: Commit portal update
+        run: |
+          git config user.name "ldr-rh-campanhas"
+          git config user.email "llucianouam@gmail.com"
+          git add rede-comercial-final/vendedor.html rede-comercial-final/admin.html
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "feat: add frozen FX conversion by payout currency"
+          git push origin HEAD:main
