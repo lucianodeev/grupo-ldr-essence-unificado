@@ -1,10 +1,11 @@
-name: Publish Seller Portal
+name: Publish Public Pages
 
 on:
   push:
     branches: [main]
     paths:
       - 'rede-comercial-final/**'
+      - 'gisele-moura-viagens/**'
       - '.github/workflows/public-pages.yml'
   workflow_dispatch:
 
@@ -31,6 +32,8 @@ jobs:
           mkdir -p _site
           cp -R rede-comercial-final/. _site/
           cp rede-comercial-final/vendedor.html _site/index.html
+          mkdir -p _site/gisele-moura-viagens
+          cp -R gisele-moura-viagens/. _site/gisele-moura-viagens/
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload Pages artifact
@@ -42,10 +45,4 @@ jobs:
         uses: actions/deploy-pages@v4
 
 # GitHub Pages source enabled on 2026-09-03.
-# Republished after integrating Academia Comercial LDR into the seller Start Here flow.
-# Republished after adding seller Pix/IBAN payment details registration and Admin consultation.
-# Republished after adding frozen EUR/BRL commission conversion by payout currency.
-# Republished after adding candidate review, interview, internal chat and Admin approval flow.
-# Republished after adding the prominent mobile-first candidate CTA in the header.
-# Republished after adding the direct existing-seller login CTA beside the join button.
-# Republished after moving the existing-seller login CTA into the header.
+# Includes the seller portal and the Gisele Moura travel landing page.
