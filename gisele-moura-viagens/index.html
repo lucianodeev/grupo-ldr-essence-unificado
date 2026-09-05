@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gisele Moura | Agente de Viagens</title>
+<meta name="description" content="Passagens aéreas, pacotes nacionais e internacionais, planejamento personalizado e suporte para sua próxima viagem. Fale com Gisele Moura.">
+<meta property="og:title" content="Gisele Moura | Agente de Viagens">
+<meta property="og:description" content="Planejamento personalizado, passagens, pacotes e suporte até a chegada ao destino.">
+<meta name="theme-color" content="#061b3d">
+<style>
+:root{--navy:#061b3d;--navy2:#0b2b5b;--gold:#d5a33a;--gold2:#f0c96b;--cream:#f7f4ec;--white:#fff;--text:#15233a;--green:#1da851;}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff;line-height:1.55}
+a{text-decoration:none} .container{width:min(1120px,92%);margin:auto}
+header{position:sticky;top:0;z-index:50;background:rgba(6,27,61,.94);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px} .brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:800}
+.brand img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)} .navlinks{display:flex;gap:20px;align-items:center}
+.navlinks a{color:#fff;font-size:.95rem} .btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 20px;border-radius:999px;font-weight:800;transition:.2s;min-height:48px}
+.btn:hover{transform:translateY(-1px)} .btn-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:var(--navy)} .btn-green{background:var(--green);color:#fff}
+.hero{background:radial-gradient(circle at 80% 10%,#1d5b9e 0,#0b2b5b 34%,#061b3d 72%);color:#fff;overflow:hidden}
+.hero-grid{min-height:690px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:42px;padding:72px 0}
+.eyebrow{color:var(--gold2);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.82rem}
+h1{font-size:clamp(2.7rem,6vw,5.6rem);line-height:.95;margin:12px 0 20px;letter-spacing:-.04em} h1 span{color:var(--gold2)}
+.hero p{font-size:1.14rem;max-width:640px;color:#e8eef8} .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.trustline{display:flex;gap:22px;flex-wrap:wrap;margin-top:30px;color:#d8e2ef;font-size:.92rem}
+.photo-wrap{position:relative;display:flex;justify-content:center} .photo-card{width:min(470px,92%);aspect-ratio:4/5;border-radius:30px;overflow:hidden;border:1px solid rgba(255,255,255,.18);box-shadow:0 30px 80px rgba(0,0,0,.35);background:#fff}
+.photo-card img{width:100%;height:100%;object-fit:cover} .logo-float{position:absolute;right:1%;top:-28px;width:145px;height:145px;border-radius:50%;overflow:hidden;border:4px solid var(--gold);box-shadow:0 12px 30px rgba(0,0,0,.24);background:#fff}
+.logo-float img{width:100%;height:100%;object-fit:cover}
+section{padding:86px 0} .section-kicker{color:#9b6c11;font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:.8rem}
+h2{font-size:clamp(2rem,4vw,3.4rem);line-height:1.05;margin:10px 0 18px;color:var(--navy)} .lead{max-width:730px;color:#57647a;font-size:1.05rem}
+.services{background:var(--cream)} .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:34px}
+.card{background:#fff;border:1px solid #e7e4dc;border-radius:22px;padding:24px;box-shadow:0 10px 30px rgba(15,30,55,.05)} .icon{width:50px;height:50px;border-radius:14px;background:var(--navy);color:var(--gold2);display:grid;place-items:center;font-size:1.45rem;margin-bottom:16px}
+.card h3{margin:0 0 8px;color:var(--navy);font-size:1.08rem} .card p{margin:0;color:#667085;font-size:.94rem}
+.packages .package-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:34px} .package{position:relative;min-height:310px;border-radius:24px;padding:26px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:linear-gradient(145deg,#164a81,#061b3d)}
+.package:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 10%,rgba(240,201,107,.35),transparent 36%)} .package>*{position:relative}
+.package small{color:var(--gold2);font-weight:800;text-transform:uppercase;letter-spacing:.08em} .package h3{font-size:1.8rem;margin:6px 0 8px} .package p{color:#e8eef8;margin:0 0 18px}
+.diff{background:var(--navy);color:#fff} .diff h2{color:#fff} .diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px} .diff .card{background:#0d315f;border-color:#214a78;color:#fff} .diff .card h3{color:#fff} .diff .card p{color:#d5deea}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:30px} .step{padding:24px;border:1px solid #e8e8ea;border-radius:20px} .num{font-size:2rem;font-weight:900;color:var(--gold);margin-bottom:10px}
+.about{background:#f7f9fc} .about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:50px;align-items:center} .about img{width:100%;max-width:430px;border-radius:28px;box-shadow:0 25px 60px rgba(5,25,50,.16)}
+.contact-band{background:linear-gradient(135deg,var(--navy),#0c3c76);color:#fff;border-radius:30px;padding:44px;display:flex;align-items:center;justify-content:space-between;gap:28px} .contact-band h2{color:#fff;margin:0 0 10px} .contact-band p{margin:0;color:#dae6f3}
+.social-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px} .social-card{border-radius:24px;padding:30px;background:#fff;border:1px solid #ececf0;box-shadow:0 8px 30px rgba(15,30,55,.05)}
+.social-card h3{font-size:1.5rem;color:var(--navy);margin:0 0 10px}
+footer{background:#04152f;color:#c7d2e3;padding:42px 0} .foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap} .foot strong{color:#fff}
+.floating-wa{position:fixed;right:18px;bottom:18px;z-index:60;background:var(--green);color:#fff;border-radius:999px;padding:14px 18px;font-weight:900;box-shadow:0 12px 30px rgba(0,0,0,.25);display:flex;gap:8px;align-items:center}
+@media(max-width:920px){.navlinks a:not(.btn){display:none} .hero-grid,.about-grid{grid-template-columns:1fr} .hero-grid{padding:52px 0 70px} .photo-wrap{margin-top:14px} .grid,.package-grid,.diff-grid,.steps{grid-template-columns:repeat(2,1fr)} .social-grid{grid-template-columns:1fr} .contact-band{flex-direction:column;align-items:flex-start}}
+@media(max-width:600px){header .btn-gold{padding:11px 14px;font-size:.9rem} .brand span{display:none} section{padding:64px 0} .grid,.package-grid,.diff-grid,.steps{grid-template-columns:1fr} .hero-grid{min-height:auto} .hero-actions .btn{width:100%} .photo-card{width:100%} .logo-float{width:105px;height:105px;top:-16px;right:0} .floating-wa{left:14px;right:14px;justify-content:center} .contact-band{padding:30px 24px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <div class="brand"><img src="data:image/jpeg;base64,REDACTED_LOGO_B64" alt="Logo Gisele Moura"><span>Gisele Moura • Agente de Viagens</span></div>
+    <nav class="navlinks"><a href="#servicos">Serviços</a><a href="#pacotes">Pacotes</a><a href="#sobre">Sobre</a><a class="btn btn-gold" href="https://wa.me/351935938963?text=Ol%C3%A1%2C%20Gisele%21%20Vi%20seu%20site%20e%20gostaria%20de%20receber%20informa%C3%A7%C3%B5es%20para%20planejar%20minha%20viagem." target="_blank" rel="noopener">Falar no WhatsApp</a></nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+<div class="container hero-grid">
+  <div>
+    <div class="eyebrow">Planejamento • Segurança • Suporte</div>
+    <h1>Você quer <span>viajar?</span></h1>
+    <p>Eu cuido do planejamento para você viajar com mais tranquilidade, segurança e acompanhamento — da primeira ideia até o dia da chegada ao destino.</p>
+    <div class="hero-actions">
+      <a class="btn btn-gold" href="https://wa.me/351935938963?text=Ol%C3%A1%2C%20Gisele%21%20Vi%20seu%20site%20e%20gostaria%20de%20receber%20informa%C3%A7%C3%B5es%20para%20planejar%20minha%20viagem." target="_blank" rel="noopener">Planejar minha viagem</a>
+      <a class="btn btn-green" href="https://wa.me/351935938963?text=Ol%C3%A1%2C%20Gisele%21%20Vi%20seu%20site%20e%20gostaria%20de%20receber%20informa%C3%A7%C3%B5es%20para%20planejar%20minha%20viagem." target="_blank" rel="noopener">WhatsApp +351 935 938 963</a>
+    </div>
+    <div class="trustline"><span>✓ Atendimento personalizado</span><span>✓ Pesquisa das melhores opções</span><span>✓ Suporte até a chegada</span></div>
+  </div>
+  <div class="photo-wrap">
+    <div class="photo-card"><img src="data:image/jpeg;base64,REDACTED_PHOTO_B64" alt="Gisele Moura, agente de viagens"></div>
+    <div class="logo-float"><img src="data:image/jpeg;base64,REDACTED_LOGO_B64" alt="GM Gisele Moura"></div>
+  </div>
+</div>
+</section>
+
+<section id="servicos" class="services">
+<div class="container">
+  <div class="section-kicker">Como posso te ajudar?</div>
+  <h2>Da passagem ao planejamento completo</h2>
+  <p class="lead">Serviços pensados para tornar sua viagem mais simples, organizada e segura.</p>
+  <div class="grid">
+    <div class="card"><div class="icon">✈</div><h3>Passagens aéreas</h3><p>Pesquisa e venda de opções adequadas ao seu roteiro.</p></div>
+    <div class="card"><div class="icon">🧳</div><h3>Pacotes nacionais</h3><p>Opções personalizadas para viagens dentro do país.</p></div>
+    <div class="card"><div class="icon">🌍</div><h3>Pacotes internacionais</h3><p>Planejamento para destinos internacionais de acordo com o seu perfil.</p></div>
+    <div class="card"><div class="icon">🔎</div><h3>Melhores opções</h3><p>Pesquisa cuidadosa de alternativas para sua viagem.</p></div>
+    <div class="card"><div class="icon">📋</div><h3>Planejamento personalizado</h3><p>Uma organização de viagem pensada para suas necessidades.</p></div>
+    <div class="card"><div class="icon">🇵🇹</div><h3>Documentação inicial para Portugal</h3><p>Orientação inicial para quem está organizando a viagem para Portugal.</p></div>
+    <div class="card"><div class="icon">🤝</div><h3>Acompanhamento</h3><p>Suporte desde o início da organização da viagem.</p></div>
+    <div class="card"><div class="icon">📍</div><h3>Até a chegada</h3><p>Suporte até o dia da sua chegada ao destino.</p></div>
+  </div>
+</div>
+</section>
+
+<section id="pacotes" class="packages">
+<div class="container">
+  <div class="section-kicker">Pacotes de viagem</div>
+  <h2>Encontre a viagem ideal para você</h2>
+  <p class="lead">Cada viagem pode ser montada de forma personalizada. Consulte disponibilidade, condições e possibilidades diretamente comigo.</p>
+  <div class="package-grid">
+    <article class="package"><small>Pacotes</small><h3>Brasil</h3><p>Viagens nacionais personalizadas para diferentes perfis e objetivos.</p><a class="btn btn-gold" href="https://wa.me/351935938963?text=Ol%C3%A1%2C%20Gisele%21%20Quero%20consultar%20op%C3%A7%C3%B5es%20de%20viagem%20para%20o%20Brasil." target="_blank">Consultar opções</a></article>
+    <article class="package"><small>Pacotes</small><h3>Portugal</h3><p>Planejamento e orientação inicial para sua viagem a Portugal.</p><a class="btn btn-gold" href="https://wa.me/351935938963?text=Ol%C3%A1%2C%20Gisele%21%20Quero%20informa%C3%A7%C3%B5es%20para%20viajar%20para%20Portugal." target="_blank">Quero viajar para Portugal</a></article>
+    <article class="package"><small>Pacotes</small><h3>Europa</h3><p>Possibilidades para diferentes destinos europeus, com planejamento personalizado.</p><a class="btn btn-gold" href="https://wa.me/351935938963?text=Ol%C3%A1%2C%20Gisele%21%20Quero%20conhecer%20op%C3%A7%C3%B5es%20de%20viagem%20pela%20Europa." target="_blank">Ver possibilidades</a></article>
+    <article class="package"><small>Pacotes</small><h3>Internacional</h3><p>Outros destinos internacionais de acordo com o seu projeto de viagem.</p><a class="btn btn-gold" href="https://wa.me/351935938963?text=Ol%C3%A1%2C%20Gisele%21%20Quero%20montar%20uma%20viagem%20internacional." target="_blank">Montar minha viagem</a></article>
+  </div>
+</div>
+</section>
+
+<section class="diff">
+<div class="container">
+  <div class="section-kicker" style="color:#f0c96b">Por que falar com a Gisele?</div>
+  <h2>Muito além de comprar uma passagem</h2>
+  <div class="diff-grid">
+    <div class="card"><h3>Atendimento humano</h3><p>Você conversa diretamente comigo e recebe orientação personalizada.</p></div>
+    <div class="card"><h3>Planejamento com cuidado</h3><p>Cada etapa é organizada de forma clara, considerando seu perfil e necessidades.</p></div>
+    <div class="card"><h3>Acompanhamento até o destino</h3><p>O suporte não termina na compra: acompanho a organização até a sua chegada.</p></div>
+  </div>
+</div>
+</section>
+
+<section>
+<div class="container">
+  <div class="section-kicker">Como funciona</div>
+  <h2>Começar é simples</h2>
+  <div class="steps">
+    <div class="step"><div class="num">01</div><h3>Conte para onde quer viajar</h3><p>Fale comigo no WhatsApp e explique seus planos.</p></div>
+    <div class="step"><div class="num">02</div><h3>Receba opções personalizadas</h3><p>Pesquiso alternativas adequadas ao seu objetivo.</p></div>
+    <div class="step"><div class="num">03</div><h3>Escolha a melhor opção</h3><p>Você compara as possibilidades e decide com mais segurança.</p></div>
+    <div class="step"><div class="num">04</div><h3>Viaje com acompanhamento</h3><p>Conte comigo durante a organização até a chegada ao destino.</p></div>
+  </div>
+</div>
+</section>
+
+<section id="sobre" class="about">
+<div class="container about-grid">
+  <div><img src="data:image/jpeg;base64,REDACTED_PHOTO_B64" alt="Gisele Moura"></div>
+  <div>
+    <div class="section-kicker">Sobre mim</div>
+    <h2>Prazer, eu sou Gisele Moura</h2>
+    <p class="lead">Como agente de viagens, meu objetivo é ajudar você a transformar o desejo de viajar em um planejamento mais simples, organizado e seguro. Acompanho cada etapa da organização da viagem e busco opções adequadas ao seu perfil e às suas necessidades.</p>
+    <a class="btn btn-green" href="https://wa.me/351935938963?text=Ol%C3%A1%2C%20Gisele%21%20Vi%20seu%20site%20e%20gostaria%20de%20receber%20informa%C3%A7%C3%B5es%20para%20planejar%20minha%20viagem." target="_blank">Falar diretamente comigo</a>
+  </div>
+</div>
+</section>
+
+<section>
+<div class="container social-grid">
+  <div class="social-card"><div class="section-kicker">Instagram</div><h3>Siga @giseleviagens</h3><p>Acompanhe destinos, novidades, dicas e oportunidades de viagem.</p><a class="btn btn-gold" href="https://www.instagram.com/giseleviagens?utm_source=qr" target="_blank" rel="noopener">Ver Instagram</a></div>
+  <div class="social-card"><div class="section-kicker">Grupo do WhatsApp</div><h3>Entre no grupo de viagens</h3><p>Receba novidades, destinos, oportunidades e informações sobre viagens.</p><a class="btn btn-green" href="https://chat.whatsapp.com/JS563uecsCe9uRN1mtQT9E?s=sw&p=i&mlu=4&ilr=4" target="_blank" rel="noopener">Entrar no grupo</a></div>
+</div>
+</section>
+
+<section>
+<div class="container">
+  <div class="contact-band">
+    <div><h2>Para onde você gostaria de viajar?</h2><p>Conte seus planos para mim e vamos começar a organizar sua próxima viagem.</p></div>
+    <a class="btn btn-gold" href="https://wa.me/351935938963?text=Ol%C3%A1%2C%20Gisele%21%20Vi%20seu%20site%20e%20gostaria%20de%20receber%20informa%C3%A7%C3%B5es%20para%20planejar%20minha%20viagem." target="_blank">Falar com Gisele agora</a>
+  </div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="container foot">
+  <div><strong>Gisele Moura — Agente de Viagens</strong><br>WhatsApp: +351 935 938 963<br>Instagram: @giseleviagens</div>
+  <div>Passagens • Pacotes • Planejamento • Acompanhamento</div>
+</div>
+</footer>
+
+<a class="floating-wa" href="https://wa.me/351935938963?text=Ol%C3%A1%2C%20Gisele%21%20Vi%20seu%20site%20e%20gostaria%20de%20receber%20informa%C3%A7%C3%B5es%20para%20planejar%20minha%20viagem." target="_blank" aria-label="Falar com Gisele no WhatsApp">💬 Falar no WhatsApp</a>
+</body>
+</html>
