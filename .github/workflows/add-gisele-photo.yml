@@ -1,0 +1,42 @@
+name: Add Gisele Photo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/add-gisele-photo.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Add professional photo to hero and about sections
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('gisele-moura-viagens/index.html')
+          s = p.read_text(encoding='utf-8')
+          old_hero = '<div class="heroVisual"><img alt="Viagem internacional" src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=82"><div class="heroBadge"><strong>Gisele Moura</strong><span data-i18n="agent">Agente de Viagens</span><p data-i18n="heroBadge">Sua próxima viagem pode começar com uma conversa.</p></div></div>'
+          new_hero = '<div class="heroVisual"><img alt="Gisele Moura, agente de viagens" src="assets/gisele-moura.jpg" style="opacity:1;object-position:center top"><div class="heroBadge"><strong>Gisele Moura</strong><span data-i18n="agent">Agente de Viagens</span><p data-i18n="heroBadge">Sua próxima viagem pode começar com uma conversa.</p></div></div>'
+          old_about = '<div class="aboutVisual"><div class="mark">GM</div></div>'
+          new_about = '<div class="aboutVisual" style="overflow:hidden;position:relative"><img loading="lazy" src="assets/gisele-moura.jpg" alt="Gisele Moura" style="width:100%;height:100%;min-height:400px;object-fit:cover;object-position:center top"><div style="position:absolute;inset:auto 18px 18px 18px;background:rgba(6,27,61,.84);color:#fff;padding:16px 18px;border-radius:16px;backdrop-filter:blur(8px)"><strong style="display:block;font-size:1.15rem">Gisele Moura</strong><span style="color:#f1cf79;font-weight:800">Agente de Viagens</span></div></div>'
+          if old_hero not in s:
+              raise SystemExit('Hero target not found')
+          if old_about not in s:
+              raise SystemExit('About target not found')
+          s = s.replace(old_hero, new_hero, 1).replace(old_about, new_about, 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name "ldr-rh-campanhas"
+          git config user.email "llucianouam@gmail.com"
+          git add gisele-moura-viagens/index.html
+          git commit -m "Use Gisele Moura photo strategically on travel page"
+          git push
