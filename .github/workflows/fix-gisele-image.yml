@@ -1,0 +1,44 @@
+name: Fix Gisele Image Binary
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fix-gisele-image.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          token: ${{ github.token }}
+      - name: Decode image correctly
+        run: |
+          set -e
+          FILE="gisele-moura-viagens/assets/gisele-moura.jpg"
+          if [ ! -f "$FILE" ]; then
+            echo "Image file not found"
+            exit 1
+          fi
+          # The previous upload stored JPEG bytes as base64 text. Decode it into the real JPEG binary.
+          base64 -d "$FILE" > "$FILE.tmp"
+          mv "$FILE.tmp" "$FILE"
+          file "$FILE"
+          test "$(head -c 2 "$FILE" | xxd -p)" = "ffd8"
+      - name: Commit corrected JPEG
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gisele-moura-viagens/assets/gisele-moura.jpg
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Fix Gisele Moura photo binary for GitHub Pages"
+            git push
+          fi
