@@ -1,0 +1,50 @@
+name: Apply Secure Online Sales
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/patch_secure_online_sales.py'
+      - '.github/workflows/apply-secure-online-sales.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply secure online sales patch
+        run: python tools/patch_secure_online_sales.py
+      - name: Validate portal markers
+        run: |
+          grep -q 'id="onlineSaleCard"' rede-comercial-final/vendedor.html
+          grep -q 'create-seller-checkout' rede-comercial-final/vendedor.html
+          grep -q 'id="stripeOnlineAdmin"' rede-comercial-final/admin.html
+      - name: Validate JavaScript syntax
+        run: |
+          python - <<'PY'
+          import re, pathlib, subprocess, tempfile
+          for f in ['rede-comercial-final/vendedor.html','rede-comercial-final/admin.html']:
+              t=pathlib.Path(f).read_text(encoding='utf-8')
+              scripts=re.findall(r'<script>(.*?)</script>',t,re.S)
+              js='\n'.join(scripts)
+              p=tempfile.NamedTemporaryFile(suffix='.js',delete=False,mode='w',encoding='utf-8')
+              p.write(js); p.close()
+              subprocess.run(['node','--check',p.name],check=True)
+          PY
+      - name: Commit portal update
+        run: |
+          if git diff --quiet -- rede-comercial-final/vendedor.html rede-comercial-final/admin.html; then
+            echo 'No changes to commit'
+          else
+            git config user.name 'ldr-rh-campanhas'
+            git config user.email 'llucianouam@gmail.com'
+            git add rede-comercial-final/vendedor.html rede-comercial-final/admin.html
+            git commit -m 'feat: add secure Stripe sales to seller portal'
+            git push
+          fi
