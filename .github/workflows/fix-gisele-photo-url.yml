@@ -1,0 +1,40 @@
+name: Fix Gisele Photo URL
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fix-gisele-photo-url.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          token: ${{ github.token }}
+      - name: Use absolute raw image URL with cache busting
+        run: |
+          set -e
+          FILE="gisele-moura-viagens/index.html"
+          OLD="assets/gisele-moura.jpg"
+          NEW="https://raw.githubusercontent.com/lucianodeev/grupo-ldr-essence-unificado/main/gisele-moura-viagens/assets/gisele-moura.jpg?v=20260908a"
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('gisele-moura-viagens/index.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('assets/gisele-moura.jpg','https://raw.githubusercontent.com/lucianodeev/grupo-ldr-essence-unificado/main/gisele-moura-viagens/assets/gisele-moura.jpg?v=20260908a')
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit patch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gisele-moura-viagens/index.html
+          git commit -m "Fix Gisele photo URL on live page" || exit 0
+          git push
