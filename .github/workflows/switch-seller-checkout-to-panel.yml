@@ -1,0 +1,28 @@
+name: Switch Seller Checkout To Panel
+on:
+  push:
+    paths:
+      - 'tools/switch_seller_checkout_to_panel.py'
+      - '.github/workflows/switch-seller-checkout-to-panel.yml'
+  workflow_dispatch:
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Switch seller checkout endpoint
+        run: python tools/switch_seller_checkout_to_panel.py
+      - name: Validate endpoint
+        run: |
+          grep -q "https://painel.ldrrhestrategia.com/api/seller-checkout" rede-comercial-final/vendedor.html
+          ! grep -q "https://www.lucianoempreendendor.com/.netlify/functions/create-seller-checkout" rede-comercial-final/vendedor.html
+      - name: Commit portal update
+        run: |
+          git config user.name "ldr-rh-campanhas"
+          git config user.email "llucianouam@gmail.com"
+          git add rede-comercial-final/vendedor.html
+          git diff --cached --quiet && exit 0
+          git commit -m "fix: use canonical seller checkout backend"
+          git push
