@@ -1,0 +1,47 @@
+name: Fix Gisele Hero Mobile
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fix-gisele-hero-mobile.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Apply mobile-only hero fix
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('gisele-moura-viagens/index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = '</style>'
+          css = '''
+          <style>
+          @media(max-width:640px){
+            .heroVisual{min-height:620px!important;}
+            .heroVisual img{object-position:center top!important;}
+            .heroBadge{left:16px!important;right:16px!important;bottom:16px!important;max-width:none!important;padding:16px 18px!important;border-radius:20px!important;}
+            .heroBadge strong{font-size:1.15rem!important;}
+            .heroBadge p{font-size:.92rem!important;line-height:1.4!important;margin:8px 0 0!important;}
+          }
+          </style>
+          '''
+          if 'Fix Gisele Hero Mobile' not in s:
+              s = s.replace('</head>', '<!-- Fix Gisele Hero Mobile -->\n' + css + '\n</head>', 1)
+              p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit change
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gisele-moura-viagens/index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Improve Gisele hero photo on mobile"
+          git push
